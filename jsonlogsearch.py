@@ -163,10 +163,12 @@ class Parser(object):
                             nargs=1,
                             default='\t')
 
-        parser.add_argument('--squash-typeinfo',
-                            help='Change parameters on the form blah : {"int" : 12345} to blah : 12345. '
-                                 'Types are int, string, array  ',
-                            default=True)
+        parser.add_argument('--dont-squash-typeinfo',
+                            help='Don\'t change parameters on the form blah : {"int" : 12345} to blah : 12345. '
+                                 'Types are int, string, array. Default is to squash.  ',
+                            action='store_false',
+                            default=True,
+                            dest='squash_typeinfo')
         parser.add_argument('--add-type',
                             help='Add type TYPE to types to squash. ',
                             action='append',

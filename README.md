@@ -13,9 +13,10 @@ Search and filter JSON logs.
   --delimiter DELIMITER
                         Delimiter between parameters in output, default tab.
                         Only used together with --show parameter
-  --squash-typeinfo SQUASH_TYPEINFO
-                        Change parameters on the form blah : {"int" : 12345}
-                        to blah : 12345. Types are int, string, array
+  --dont-squash-typeinfo
+                        Don't change parameters on the form blah : {"int" :
+                        12345} to blah : 12345. Types are int, string, array.
+                        Default is to squash.
   --add-type ADD_TYPE   Add type TYPE to types to squash.
 ```
 
