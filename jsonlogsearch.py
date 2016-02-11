@@ -144,16 +144,16 @@ class Parser(object):
     def get_arg_parser():
         parser = argparse.ArgumentParser(description='Search in JSON logs. Expects each log line to be valid JSON.')
         parser.add_argument('--where',
-                            help='Show only lines which contain NAME[=VALUE]',
+                            help='Filter to lines which contain NAME[=VALUE]',
                             metavar=['NAME=VALUE'],
                             nargs='+')
         parser.add_argument('--where-not',
-                            help='Show only lines which do not contain NAME[=VALUE]',
+                            help='Filter to lines which do not contain NAME[=VALUE]. Overrides --where.',
                             metavar=['NAME=VALUE'],
                             nargs='+')
 
         parser.add_argument('--show',
-                            help='Show only parameter PARAM',
+                            help='Show only parameter PARAM in output',
                             metavar='PARAM',
                             nargs='+')
 
