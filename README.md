@@ -30,14 +30,14 @@ Example data
 ```
 
 
-`prositen@home>./json-log-search example.json --where campaign_id=12345 --show ip user_agent`
+`prositen@home>python jsonlogsearch.py example.json --where campaign_id=12345 --show ip user_agent`
 
 ```
 ip=10.0.0.1 user_agent=Mozilla/5.0 (Windows NT 6.1; rv:41.0) Gecko/20100101 Firefox/41.0
 ip=127.0.0.1  user_agent=Mozilla/5.0 (iPad; CPU OS 9_2_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13D15 Safari/601.1
 ```
 
-`prositen@home>./json-log-search example.json --where ip=10.0.0.1`
+`prositen@home>python jsonlogsearch.py example.json --where ip=10.0.0.1`
 
 ```
 { 'campaign_id' : 12345, 'ip' : '10.0.0.1', 'user_agent' : 'Mozilla/5.0 (Windows NT 6.1; rv:41.0) Gecko/20100101 Firefox/41.0', 'browser' : 'Firefox' } }
