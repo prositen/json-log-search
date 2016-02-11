@@ -193,7 +193,6 @@ def main(args):
     parser = Parser(args)
     try:
         if parser.csv:
-            print(parser.delimiter)
             print(parser.delimiter.join(parser.show))
         for line in fileinput.input(parser.file, openhook=fileinput.hook_compressed):
             line = JSONSearch(line, parser)
