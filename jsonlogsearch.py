@@ -114,7 +114,10 @@ class JSONSearch(object):
                 for i in self.parser.show:
                     found, child = self.find_rec(self.json_line, i, True)
                     if found:
-                        found_items.append("{0}={1}".format(i, child))
+                        if self.parser.csv:
+                            found_items.append(str(child))
+                        else:
+                            found_items.append("{0}={1}".format(i, child))
                 print(self.parser.delimiter.join(found_items))
             else:
                 print(self.json_line)
@@ -138,49 +141,60 @@ class Parser(object):
         else:
             self.show = None
         self.types = args.add_type
-        self.delimiter = args.delimiter
+
+        self.csv = args.csv
+        self.delimiter = '\t'
+        if self.csv:
+            self.delimiter = ','
+        if args.delimiter:
+            self.delimiter = args.delimiter
 
     @staticmethod
     def get_arg_parser():
         parser = argparse.ArgumentParser(description='Search in JSON logs. Expects each log line to be valid JSON.')
         parser.add_argument('--where',
                             help='Filter to lines which contain NAME[=VALUE]',
-                            metavar=['NAME=VALUE'],
+                            metavar=['FILTER'],
                             nargs='+')
         parser.add_argument('--where-not',
                             help='Filter to lines which do not contain NAME[=VALUE]. Overrides --where.',
-                            metavar=['NAME=VALUE'],
+                            metavar=['FILTER'],
                             nargs='+')
-
+        parser.add_argument('--dont-squash-typeinfo',
+                            help='Don\'t squash json on the form blah : {"int" : 12345} to blah : 12345. '
+                                 'Valid types are int, string, array. Default is to squash.  ',
+                            action='store_false',
+                            default=True,
+                            dest='squash_typeinfo')
+        parser.add_argument('--add-type',
+                            help='Add custom type TYPE to types to squash. ',
+                            action='append',
+                            default=['int', 'string', 'array'])
         parser.add_argument('--show',
-                            help='Show only parameter PARAM in output',
+                            help='Show only parameter PARAM in output.',
                             metavar='PARAM',
                             nargs='+')
 
         parser.add_argument('--delimiter',
                             help='Delimiter between parameters in output, default tab. '
-                                 'Only used together with --show parameter',
-                            nargs=1,
-                            default='\t')
+                                 'Only used together with --show parameter')
 
-        parser.add_argument('--dont-squash-typeinfo',
-                            help='Don\'t change parameters on the form blah : {"int" : 12345} to blah : 12345. '
-                                 'Types are int, string, array. Default is to squash.  ',
-                            action='store_false',
-                            default=True,
-                            dest='squash_typeinfo')
-        parser.add_argument('--add-type',
-                            help='Add type TYPE to types to squash. ',
-                            action='append',
-                            default=['int', 'string', 'array'])
+        parser.add_argument('--csv',
+                            help='Parameter names are shown in header only. Delimiter default is changed to comma'
+                                 '(can be overridden). Only used together with --show parameter. ',
+                            action='store_true')
         parser.add_argument('file', help='Logfile(s)',
                             nargs='*')
+
         return parser
 
 
 def main(args):
     parser = Parser(args)
     try:
+        if parser.csv:
+            print(parser.delimiter)
+            print(parser.delimiter.join(parser.show))
         for line in fileinput.input(parser.file, openhook=fileinput.hook_compressed):
             line = JSONSearch(line, parser)
             line.print()

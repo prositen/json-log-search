@@ -3,21 +3,24 @@
 Search and filter JSON logs. 
 
 ```
-  --where ['NAME=VALUE'] [['NAME=VALUE'] ...]
+  --where ['FILTER'] [['FILTER'] ...]
                         Filter to lines which contain NAME[=VALUE]
-  --where-not ['NAME=VALUE'] [['NAME=VALUE'] ...]
+  --where-not ['FILTER'] [['FILTER'] ...]
                         Filter to lines which do not contain NAME[=VALUE].
                         Overrides --where.
+  --dont-squash-typeinfo
+                        Don't squash json on the form blah : {"int" : 12345}
+                        to blah : 12345. Valid types are int, string, array.
+                        Default is to squash.
+  --add-type ADD_TYPE   Add custom type TYPE to types to squash.
   --show PARAM [PARAM ...]
-                        Show only parameter PARAM in output
+                        Show only parameter PARAM in output.
   --delimiter DELIMITER
                         Delimiter between parameters in output, default tab.
                         Only used together with --show parameter
-  --dont-squash-typeinfo
-                        Don't change parameters on the form blah : {"int" :
-                        12345} to blah : 12345. Types are int, string, array.
-                        Default is to squash.
-  --add-type ADD_TYPE   Add type TYPE to types to squash.
+  --csv                 Parameter names are shown in header only. Delimiter
+                        default is changed to comma(can be overridden). Only
+                        used together with --show parameter.
 ```
 
 ## Example
