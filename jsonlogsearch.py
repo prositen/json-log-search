@@ -196,8 +196,12 @@ def main(args):
         if parser.csv:
             print(parser.delimiter.join(parser.show))
         for line in fileinput.input(parser.file, openhook=fileinput.hook_compressed):
-            line = JSONSearch(line, parser)
-            line.print()
+            try:
+                line = line.decode()
+            except AttributeError:
+                pass
+            json_line = JSONSearch(line.decode(), parser)
+            json_line.print()
             pass
     except (IOError, KeyboardInterrupt) as e:
         pass
