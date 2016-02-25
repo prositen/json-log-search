@@ -200,7 +200,7 @@ def main(args):
                 line = line.decode()
             except AttributeError:
                 pass
-            json_line = JSONSearch(line.decode(), parser)
+            json_line = JSONSearch(line, parser)
             json_line.print()
             pass
     except (IOError, KeyboardInterrupt) as e:
